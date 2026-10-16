@@ -7,7 +7,7 @@ $host = "192.168.10.56";
 $dbname = "petite_patisserie";
 
 // Usuário padrão do banco de dados PostgreSQL
-$user = "postgres";
+$user = "petitepatisserie";
 
 // Senha de acesso ao banco de dados
 $pass = "23120920";

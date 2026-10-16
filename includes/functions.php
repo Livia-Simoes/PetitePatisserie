@@ -259,6 +259,41 @@ function cadastrarUsuario($conexao, $nome, $email, $senha, $tipo){
 }
 
 
+// Função responsável por listar todos os usuários cadastrados.
+// Recebe a conexão com o banco de dados como parâmetro.
+function listarUsuarios($conexao){
+
+    // Consulta os usuários cadastrados no banco.
+    // Não seleciona a senha para evitar sua exposição.
+    $sql = "SELECT id, nome, email, tipo
+            FROM usuarios
+            ORDER BY id";
+
+    try{
+
+        // Prepara o comando SQL para execução.
+        $stmt = $conexao->prepare($sql);
+
+        // Executa a consulta no banco de dados.
+        $stmt->execute();
+
+        // Recupera todos os usuários encontrados.
+        // FETCH_ASSOC organiza os resultados em um array associativo,
+        // permitindo acessar os campos pelo nome das colunas.
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }catch(PDOException $e){
+
+        // Exibe uma mensagem caso aconteça algum erro na consulta.
+        echo "Erro ao buscar usuários.";
+
+        // Retorna um array vazio caso não seja possível listar os usuários.
+        return [];
+
+    }
+}
+
+
 // Função responsável por atualizar os dados de um cliente.
 // Recebe a conexão com o banco, o ID, o novo nome e o novo email.
 function atualizarUsuario($conexao, $id, $nome, $email){
