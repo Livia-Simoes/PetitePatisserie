@@ -10,7 +10,7 @@ $dbname = "petite_patisserie";
 $user = "petitepatisserie";
 
 // Senha de acesso ao banco de dados
-$pass = "23120920";
+$pass = "123456";
 
 try {
 
