@@ -42,7 +42,7 @@ O projeto conta com um arquivo de dump chamado `petite_patisserie.sql`, com a es
 
 **1 -** Abra o terminal, Prompt de Comando ou PowerShell.
 
-**2 -** Conecte-se ao PostgreSQL usando seu usuário principal (geralmente `postgres`):
+**2 -** Conecte-se ao PostgreSQL usando o usuário administrador `postgres`:
 
 ```bash
 psql -U postgres
@@ -94,11 +94,11 @@ cd ..
 $host = 'localhost';
 $port = '5432';
 $dbname = 'petite_patisserie';
-$user = 'postgres';
-$password = 'sua_senha_aqui'; // Coloque sua senha do PostgreSQL aqui
+$user = 'petitepatisserie';
+$password = '123456'; 
 ```
 
-**Observação:** utilize a senha configurada no seu PostgreSQL. Não compartilhe sua senha pessoal no GitHub.
+**Observação:** o usuário `petitepatisserie` deve existir no PostgreSQL e possuir as permissões necessárias para acessar o banco de dados. Não compartilhe sua senha pessoal no GitHub.
 
 ## 2.5 Passo 4: Acessar a Aplicação
 
@@ -119,6 +119,7 @@ Caso o projeto esteja dentro de uma pasta chamada `petite_patisserie`, iniciando
 ```text
 http://localhost:8000/petite_patisserie/
 ```
+---
 
 ## 2.6 Passo 5: Informações de Entrada
 
@@ -127,9 +128,6 @@ O sistema possui dois tipos de acesso: cliente e administrador.
 Para entrar, utilize as contas cadastradas no banco de dados, respeitando o tipo de usuário correspondente.
 
 As credenciais de acesso não são disponibilizadas nesta documentação.
-
----
-
 # 3. Especificação de Requisitos de Software (SRS)
 
 Documento organizado com referência à estrutura da ISO/IEC/IEEE 29148:2018. Os requisitos abaixo descrevem as funcionalidades identificadas no projeto Petite Patisserie.
