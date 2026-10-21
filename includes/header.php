@@ -65,7 +65,9 @@ if (session_status() == PHP_SESSION_NONE) {
                 <a href="/petite_patisserie/app/apagar_produto.php" class="nav-link admin-link">
                     Deletar produto
                 </a>
-
+                <a href="/petite_patisserie/app/select_u.php" class="nav-link admin-link">
+    Visualizar usuários
+</a>
             <?php endif; ?>
 
             <!-- Sair da conta -->

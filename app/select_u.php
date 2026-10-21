@@ -1,37 +1,58 @@
 
 <?php
 
-// Inicia a sessão para permitir o acesso aos dados do usuário conectado.
+// Inicia a sessão para permitir o acesso às informações
+// do usuário que está conectado ao sistema.
 session_start();
 
-// Verifica se existe um usuário conectado ao sistema.
+
+// Verifica se existe um usuário conectado.
 // Caso não exista, redireciona para a página de login do cliente.
 if (!isset($_SESSION["usuario"])) {
+
+    // Redireciona para o login do cliente.
     header("Location: ../login/login_cliente.php");
+
+    // Interrompe a execução do código após o redirecionamento.
     exit;
 }
+
 
 // Verifica se o usuário conectado possui o tipo administrador.
-// Caso não seja administrador, redireciona para a página inicial.
+// A comparação !== verifica se o valor é diferente de "admin".
 if (!isset($_SESSION["tipo"]) || $_SESSION["tipo"] !== "admin") {
+
+    // Caso não seja administrador, redireciona para a página inicial.
     header("Location: ../index.php");
+
+    // Interrompe a execução do código.
     exit;
 }
 
+
 // Inclui o arquivo responsável pela conexão com o banco de dados.
+// A conexão será utilizada para consultar os usuários cadastrados.
 include(__DIR__ . "/../database/connect.php");
 
+
 // Inclui o arquivo que contém as funções utilizadas no sistema.
+// Nele está definida a função listarUsuarios().
 include(__DIR__ . "/../includes/functions.php");
 
+
+// Chama a função listarUsuarios(), enviando a conexão com o banco.
+// O resultado da consulta é armazenado na variável $todosUsuarios.
+$todosUsuarios = listarUsuarios($conexao);
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
 
-    <!-- Define a codificação de caracteres da página. -->
+    <!-- Define a codificação de caracteres utilizada na página. -->
     <meta charset="UTF-8">
 
     <!-- Permite que a página se adapte a diferentes tamanhos de tela. -->
@@ -47,94 +68,159 @@ include(__DIR__ . "/../includes/functions.php");
 
 <body>
 
-<!-- Inclui o cabeçalho padrão utilizado nas páginas do site. -->
+
+<!-- Inclui o cabeçalho compartilhado do site. -->
 <?php include(__DIR__ . "/../includes/header.php"); ?>
 
 
-<!-- Container principal que organiza o conteúdo da página. -->
-<main class="vitrine-container">
+<!-- Área principal que organiza o conteúdo da página de usuários. -->
+<main class="usuarios-container">
 
-    <!-- Título principal da página de usuários. -->
-    <h2 class="vitrine-title">Usuários cadastrados</h2>
 
-    <?php
+    <!-- Título principal da página. -->
+    <h2 class="vitrine-title">
+        Usuários cadastrados
+    </h2>
 
-    // Chama a função listarUsuarios(), definida em functions.php.
-    // Ela recebe a conexão com o banco de dados
-    // e retorna os usuários cadastrados.
-    $todosUsuarios = listarUsuarios($conexao);
 
-    ?>
+    <!-- Apresenta uma descrição abaixo do título. -->
+    <p class="usuarios-subtitulo">
+        Confira os usuários registrados na Petite Patisserie.
+    </p>
 
-    <!-- Verifica se existem usuários cadastrados no banco. -->
-    <?php if (empty($todosUsuarios)): ?>
 
-        <!-- Mensagem exibida quando não existem usuários cadastrados. -->
-        <p class="no-products">
-            Nenhum usuário cadastrado no momento.
-        </p>
+    <!-- Cartão que organiza visualmente a tabela de usuários. -->
+    <div class="usuarios-card">
 
-    <?php else: ?>
 
-        <!-- Tabela responsável por apresentar os usuários cadastrados. -->
-        <table class="users-table">
+        <!-- Verifica se a lista de usuários está vazia.
+             empty() retorna verdadeiro quando não existem usuários. -->
+        <?php if (empty($todosUsuarios)): ?>
 
-            <!-- Cabeçalho da tabela com os nomes das colunas. -->
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Tipo</th>
-                </tr>
-            </thead>
 
-            <!-- Corpo da tabela com os dados dos usuários. -->
-            <tbody>
+            <!-- Mensagem apresentada caso nenhum usuário esteja cadastrado. -->
+            <p class="usuarios-vazio">
+                Nenhum usuário cadastrado no momento.
+            </p>
 
-                <!-- Percorre todos os usuários retornados pelo banco de dados.
-                     Cada usuário é armazenado na variável $usuario. -->
-                <?php foreach ($todosUsuarios as $usuario): ?>
+
+        <?php else: ?>
+
+
+            <!-- Tabela responsável por apresentar os usuários cadastrados. -->
+            <table class="users-table">
+
+
+                <!-- Cabeçalho da tabela com os nomes das colunas. -->
+                <thead>
 
                     <tr>
 
-                        <!-- Exibe o ID do usuário. -->
-                        <td>
-                            <?php echo $usuario["id"]; ?>
-                        </td>
+                        <!-- Coluna que apresenta o identificador do usuário. -->
+                        <th>ID</th>
 
-                        <!-- Exibe o nome do usuário.
-                             htmlspecialchars() protege os dados exibidos no HTML. -->
-                        <td>
-                            <?php echo htmlspecialchars($usuario["nome"]); ?>
-                        </td>
+                        <!-- Coluna que apresenta o nome do usuário. -->
+                        <th>Nome</th>
 
-                        <!-- Exibe o e-mail do usuário. -->
-                        <td>
-                            <?php echo htmlspecialchars($usuario["email"]); ?>
-                        </td>
+                        <!-- Coluna que apresenta o endereço de e-mail. -->
+                        <th>E-mail</th>
 
-                        <!-- Exibe o tipo de usuário:
-                             cliente ou administrador. -->
-                        <td>
-                            <?php echo htmlspecialchars($usuario["tipo"] ?? "Não definido"); ?>
-                        </td>
+                        <!-- Coluna que identifica o tipo de usuário. -->
+                        <th>Tipo</th>
 
                     </tr>
 
-                <?php endforeach; ?>
+                </thead>
 
-            </tbody>
 
-        </table>
+                <!-- Corpo da tabela onde serão apresentados os registros. -->
+                <tbody>
 
-    <?php endif; ?>
+
+                    <!-- Percorre todos os usuários encontrados no banco.
+                         Cada registro é armazenado na variável $usuario. -->
+                    <?php foreach ($todosUsuarios as $usuario): ?>
+
+
+                        <!-- Cria uma linha para cada usuário encontrado. -->
+                        <tr>
+
+
+                            <!-- Exibe o ID do usuário.
+                                 O valor é convertido para texto antes da exibição. -->
+                            <td>
+                                <?php echo htmlspecialchars((string) $usuario["id"]); ?>
+                            </td>
+
+
+                            <!-- Exibe o nome cadastrado.
+                                 htmlspecialchars() protege a página,
+                                 impedindo que caracteres especiais sejam interpretados como HTML. -->
+                            <td>
+                                <?php echo htmlspecialchars($usuario["nome"]); ?>
+                            </td>
+
+
+                            <!-- Exibe o endereço de e-mail do usuário.
+                                 htmlspecialchars() protege o conteúdo exibido. -->
+                            <td>
+                                <?php echo htmlspecialchars($usuario["email"]); ?>
+                            </td>
+
+
+                            <!-- Verifica o tipo de usuário para apresentar
+                                 uma identificação visual diferente para cada categoria. -->
+                            <td>
+
+
+                                <!-- Verifica se o usuário possui o tipo administrador. -->
+                                <?php if ($usuario["tipo"] === "admin"): ?>
+
+
+                                    <!-- Exibe uma etiqueta rosa para identificar o administrador. -->
+                                    <span class="tipo-usuario tipo-admin">
+                                        Administrador
+                                    </span>
+
+
+                                <?php else: ?>
+
+
+                                    <!-- Caso não seja administrador, apresenta a etiqueta de cliente. -->
+                                    <span class="tipo-usuario tipo-cliente">
+                                        Cliente
+                                    </span>
+
+
+                                <?php endif; ?>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <!-- Finaliza a repetição dos usuários. -->
+                    <?php endforeach; ?>
+
+
+                </tbody>
+
+            </table>
+
+
+        <?php endif; ?>
+
+
+    </div>
 
 </main>
 
 
-<!-- Inclui o rodapé padrão utilizado nas páginas do site. -->
+<!-- Inclui o rodapé compartilhado do site. -->
 <?php include(__DIR__ . "/../includes/footer.php"); ?>
+
 
 </body>
 </html>

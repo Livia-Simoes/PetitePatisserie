@@ -1,7 +1,7 @@
 <?php
 
 // Configuração do endereço IP do servidor onde o banco de dados PostgreSQL está hospedado
-$host = "192.168.10.56";
+$host = "localhost";
 
 // Nome do banco de dados da aplicação
 $dbname = "petite_patisserie";

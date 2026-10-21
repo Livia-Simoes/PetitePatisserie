@@ -57,11 +57,13 @@ if (isset($_POST["apagar"])) {
             // Caso o produto não seja encontrado ou não possa ser excluído,
             // armazena uma mensagem de erro.
             $mensagem = "Produto não encontrado ou não pode ser removido.";
+
         }
     }
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -84,6 +86,7 @@ if (isset($_POST["apagar"])) {
 
 <body>
 
+
 <!-- Inclui o cabeçalho padrão do site. -->
 <?php include(__DIR__ . "/../includes/header.php"); ?>
 
@@ -98,13 +101,13 @@ if (isset($_POST["apagar"])) {
         <h2>Deletar Produto</h2>
 
 
-        <!-- Verifica se existe alguma mensagem para ser exibida.
-             empty() verifica se a variável está vazia. -->
+        <!-- Verifica se existe alguma mensagem para ser exibida. -->
         <?php if (!empty($mensagem)): ?>
 
 
             <!-- Verifica se a exclusão foi realizada com sucesso. -->
             <?php if ($status_sucesso): ?>
+
 
                 <!-- Exibe a mensagem de sucesso. -->
                 <p class="subtitle">
@@ -112,8 +115,7 @@ if (isset($_POST["apagar"])) {
                     <?php
 
                     // Exibe a mensagem armazenada na variável.
-                    // htmlspecialchars() trata caracteres especiais como texto,
-                    // evitando que sejam interpretados como código HTML.
+                    // htmlspecialchars() protege o conteúdo exibido.
                     echo htmlspecialchars($mensagem);
 
                     ?>
@@ -134,15 +136,19 @@ if (isset($_POST["apagar"])) {
 
             <?php else: ?>
 
+
                 <!-- Caso ocorra algum erro, exibe a mensagem correspondente. -->
                 <p class="error-message">
 
                     <?php
+
                     // Exibe a mensagem de erro.
                     echo htmlspecialchars($mensagem);
+
                     ?>
 
                 </p>
+
 
             <?php endif; ?>
 
@@ -150,42 +156,40 @@ if (isset($_POST["apagar"])) {
 
 
         <!-- Verifica se a exclusão ainda não foi realizada com sucesso.
-             Se não foi, mantém o formulário disponível na página. -->
+             Caso não tenha sido, mantém o formulário disponível. -->
         <?php if (!$status_sucesso): ?>
 
 
             <!-- Formulário utilizado para informar o ID do produto.
-                 O método POST envia os dados sem colocá-los na URL. -->
+                 O método POST envia os dados para o próprio arquivo PHP. -->
             <form method="POST">
 
 
-                <!-- Identifica o campo onde o administrador deve informar o ID. -->
+                <!-- Identifica o campo onde o administrador informa o ID. -->
                 <label for="id">ID do produto:</label>
 
 
-                <!-- Campo numérico para informar o ID do produto que será excluído. -->
+                <!-- Campo numérico para informar o ID do produto que será excluído.
+                     name="id" permite recuperar o valor através de $_POST["id"].
+                     required exige que o campo seja preenchido. -->
                 <input type="number"
-
-                       id="id"          <!-- Identifica o campo no HTML. -->
-
-                       name="id"        <!-- Nome utilizado pelo PHP para receber o valor. -->
-
-                       placeholder="Ex: 5"  <!-- Exemplo exibido dentro do campo. -->
-
-                       required>       <!-- Obriga o preenchimento do campo. -->
+                       id="id"
+                       name="id"
+                       placeholder="Ex: 5"
+                       required>
 
 
-                <!-- Botão que envia o formulário para o próprio arquivo PHP. -->
+                <!-- Botão responsável por enviar o formulário.
+                     name="apagar" permite identificar o envio no PHP.
+                     value define o texto apresentado no botão. -->
                 <input type="submit"
-
-                       name="apagar"       <!-- Permite identificar o envio pelo PHP. -->
-
-                       value="Deletar"     <!-- Texto exibido no botão. -->
-
-                       class="btn-cute btn-remove"> <!-- Classes responsáveis pela aparência. -->
+                       name="apagar"
+                       value="Deletar"
+                       class="btn-cute btn-remove">
 
 
             </form>
+
 
         <?php endif; ?>
 
@@ -196,6 +200,7 @@ if (isset($_POST["apagar"])) {
 
 <!-- Inclui o rodapé padrão do site. -->
 <?php include(__DIR__ . "/../includes/footer.php"); ?>
+
 
 </body>
 </html>
