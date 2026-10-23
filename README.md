@@ -33,7 +33,7 @@ Abra o terminal e execute:
 git clone https://github.com/Livia-Simoes/petite_patisserie.git
 
 # Acesse a pasta do projeto
-cd PetitePatisserie
+cd petite_patisserie
 ```
 
 ## 2.3 Passo 2: Configurar o Banco de Dados (Restore do Dump)
