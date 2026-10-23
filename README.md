@@ -30,7 +30,7 @@ Abra o terminal e execute:
 
 ```bash
 # Clone este repositório
-git clone https://github.com/Livia-Simoes/PetitePatisserie.git
+git clone https://github.com/Livia-Simoes/petite_patisserie.git
 
 # Acesse a pasta do projeto
 cd PetitePatisserie
